@@ -24,7 +24,7 @@ export default {
             startFrom = {y: e.changedTouches[0].pageY};
         });
 
-        document.querySelector('.component-photo').addEventListener('touched', async (e) =>{
+        document.querySelector('.component-photo').addEventListener('touchend', async (e) =>{
             const direction = e.changedTouches[0].pageY - startFrom.y;
 
             if (direction < 0) {
