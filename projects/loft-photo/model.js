@@ -38,6 +38,7 @@ export default {
   async init() {
     this.photoCache = {};
     this.friends = await this.getFriends();
+    [this.me] = await this.getUsers();
   },
 
   login() {
@@ -55,6 +56,10 @@ export default {
         }
       }, PERM_FRIENDS | PERM_PHOTOS);
     });
+  },
+
+  logout() {
+    return new Promise((resolve) => VK.Auth.revokeGrants(resolve));
   },
 
   callApi(method, params) {
@@ -99,5 +104,17 @@ export default {
     this.photoCache[id] = photos;
 
     return photos;
+  },
+
+  getUsers(ids) {
+    const params = {
+      fields: ['photo_50', 'photo_100'],
+    };
+
+    if (ids) {
+      params.user_ids = ids;
+    }
+
+    return this.callApi('users.get', params);
   },
 };
